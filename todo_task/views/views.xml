@@ -36,6 +36,7 @@
                                         <field name="description"/>
                                         <field name="emergency_status"/>
                                         <field name="overdue_time"/>
+                                        <field name="is_done"/>
                                         <field name="is_overdue"/>
                                     </tree>
                                 </field>
@@ -56,9 +57,32 @@
                     <field name="description"/>
                     <field name="emergency_status"/>
                     <field name="overdue_time"/>
+                    <field name="is_done"/>
                     <field name="is_overdue"/>
                     <field name="category_id"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="todo_task_search" model="ir.ui.view">
+            <field name="name">待办事项搜索</field>
+            <field name="model">todo_task.todo_task</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <separator/> <!---各行-->
+                    <filter string="已完成" name="done" domain="[('is_done','=', True)]" />
+                    <filter string="未完成" name="undone" domain="[('is_done','=', False)]" />
+                    <separator/> <!---各行-->
+                    <filter string="代办" name="todo" domain="[('emergency_status','=','todo')]" />
+                    <filter string="紧急" name="emergency" domain="[('emergency_status','=','emergency')]" />
+                    <separator/> <!---各行-->
+                    <group expand="0" string="分组">
+                        <filter string="紧急程度" name="emergency" domain="[]" context="{'group_by':'emergency_status'}"/>
+                        <filter string="分类" name="category" domain="[]" context="{'group_by':'category_id'}"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -75,6 +99,12 @@
             <field name="name">todo_task window</field>
             <field name="res_model">todo_task.todo_task</field>
             <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_url" id="open_baidu_win">
+            <field name="name">打开百度</field>
+            <field name="target">new</field>
+            <field name="url">http://www.baidu.com/</field>
         </record>
 
 
@@ -109,6 +139,9 @@
                   sequence="3"/>
         <menuitem name="待办事项" id="menu_todo_todo_task" parent="todo_task.menu_root" action="todo_task.action_window"
                   sequence="1"/>
+
+        <menuitem name="打开百度" id="menu_open_baidu" parent="todo_task.menu_root" action="open_baidu_win"
+                  sequence="5"/>
 
         <!--<menuitem name="Server to list" id="todo_task" parent="todo_task.menu_2" action="todo_task.action_server"/>-->
 
