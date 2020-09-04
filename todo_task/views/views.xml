@@ -1,0 +1,116 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition   视图-->
+
+        <record model="ir.ui.view" id="todo_category_list">
+            <field name="name">Todo Category list</field>
+            <field name="model">todo.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="task_id" invisible="1"/>
+                    <field name="task_num" sum="总数"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="todo_category_form">
+            <field name="name">Todo Category form</field>
+            <field name="model">todo.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="task_num"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="待办事项">
+                                <field name="task_id">
+                                    <tree string="待办事项" create="0" edit="0" delete="0">
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="emergency_status"/>
+                                        <field name="overdue_time"/>
+                                        <field name="is_overdue"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="todo_task_list">
+            <field name="name">Todo Task list</field>
+            <field name="model">todo_task.todo_task</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="is_overdue">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="emergency_status"/>
+                    <field name="overdue_time"/>
+                    <field name="is_overdue"/>
+                    <field name="category_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models 视图和菜单的桥梁-->
+
+        <record model="ir.actions.act_window" id="todo_category_win">
+            <field name="name">todo_category window</field>
+            <field name="res_model">todo.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="todo_task.action_window">
+            <field name="name">todo_task window</field>
+            <field name="res_model">todo_task.todo_task</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- server action to the one above -->
+
+        <!--<record model="ir.actions.server" id="todo_task.action_server">-->
+        <!--<field name="name">todo_task server</field>-->
+        <!--<field name="model_id" ref="model_todo_task_todo_task"/>-->
+        <!--<field name="state">code</field>-->
+        <!--<field name="code">-->
+        <!--action = {-->
+        <!--"type": "ir.actions.act_window",-->
+        <!--"view_mode": "tree,form",-->
+        <!--"res_model": model._name,-->
+        <!--}-->
+        <!--</field>-->
+        <!--</record>-->
+
+
+        <!-- Top menu item 顶部主菜单-->
+
+        <menuitem name="代办" id="todo_task.menu_root"/>
+
+        <!-- menu categories （一级菜单）-->
+
+        <!--<menuitem name="Todo Manager" id="menu_todo_manager" parent="todo_task.menu_root"/>-->
+        <!--<menuitem name="Menu 2" id="todo_task.menu_2" parent="todo_task.menu_root"/>-->
+
+        <!-- actions 二级菜单-->
+
+        <menuitem name="代办分类" id="menu_todo_todo_category" parent="todo_task.menu_root" action="todo_category_win"
+                  sequence="3"/>
+        <menuitem name="待办事项" id="menu_todo_todo_task" parent="todo_task.menu_root" action="todo_task.action_window"
+                  sequence="1"/>
+
+        <!--<menuitem name="Server to list" id="todo_task" parent="todo_task.menu_2" action="todo_task.action_server"/>-->
+
+    </data>
+</odoo>
