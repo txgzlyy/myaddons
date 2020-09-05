@@ -19,7 +19,7 @@ class TodoCategory(models.Model):
 
 
 class TodoTask(models.Model):
-    _name = 'todo_task.todo_task'
+    _name = 'todo.task'
     _description = '待办事件详情'
 
     name = fields.Char(string="任务名")
