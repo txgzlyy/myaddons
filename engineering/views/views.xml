@@ -1,0 +1,148 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition   视图-->
+
+        <record model="ir.ui.view" id="eng_dredge_list">
+            <field name="name">疏浚物料装载单</field>
+            <field name="model">eng.dredge</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sand_h"/>
+                    <field name="sand_m"/>
+                    <field name="sand_d"/>
+                    <field name="dredge_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="eng_takeover_list">
+            <field name="name">接管物料装载单列表</field>
+            <field name="model">eng.takeover</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sand_h"/>
+                    <field name="sand_m"/>
+                    <field name="sand_d"/>
+                    <field name="takeover_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="eng_audit_form">
+            <field name="name">工程物料申请单</field>
+            <field name="model">eng.audit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="疏浚物料装载单">
+                                <field name="dredge_id">
+                                    <tree string="待办事项" create="0" edit="0" delete="0">
+                                        <field name="sand_h"/>
+                                        <field name="sand_m"/>
+                                        <field name="sand_d"/>
+                                        <field name="dredge_time"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="接管物料装载单">
+                                <field name="takeover_id">
+                                    <tree string="待办事项" create="0" edit="0" delete="0">
+                                        <field name="sand_h"/>
+                                        <field name="sand_m"/>
+                                        <field name="sand_d"/>
+                                        <field name="takeover_time"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--<record id="todo_task_search" model="ir.ui.view">-->
+            <!--<field name="name">待办事项搜索</field>-->
+            <!--<field name="model">todo.task</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<search>-->
+                    <!--<field name="name"/>-->
+                    <!--<field name="category_id"/>-->
+                    <!--<separator/> &lt;!&ndash;-各行&ndash;&gt;-->
+                    <!--<filter string="已完成" name="done" domain="[('is_done','=', True)]" />-->
+                    <!--<filter string="未完成" name="undone" domain="[('is_done','=', False)]" />-->
+                    <!--<separator/> &lt;!&ndash;-各行&ndash;&gt;-->
+                    <!--<filter string="代办" name="todo" domain="[('emergency_status','=','todo')]" />-->
+                    <!--<filter string="紧急" name="emergency" domain="[('emergency_status','=','emergency')]" />-->
+                    <!--<separator/> &lt;!&ndash;-各行&ndash;&gt;-->
+                    <!--<group expand="0" string="分组">-->
+                        <!--<filter string="紧急程度" name="emergency" domain="[]" context="{'group_by':'emergency_status'}"/>-->
+                        <!--<filter string="分类" name="category" domain="[]" context="{'group_by':'category_id'}"/>-->
+                    <!--</group>-->
+                <!--</search>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+        <!-- actions opening views on models 视图和菜单的桥梁-->
+
+        <record model="ir.actions.act_window" id="eng_takeover_win">
+            <field name="name">接管物料装载单</field>
+            <field name="res_model">eng.takeover</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="eng_dredge_win">
+            <field name="name">疏浚物料装载单</field>
+            <field name="res_model">eng.dredge</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="eng_audit_win">
+            <field name="name">物料审核单</field>
+            <field name="res_model">eng.audit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- server action to the one above -->
+
+        <!--<record model="ir.actions.server" id="todo_task.action_server">-->
+        <!--<field name="name">todo_task server</field>-->
+        <!--<field name="model_id" ref="model_todo_task_todo_task"/>-->
+        <!--<field name="state">code</field>-->
+        <!--<field name="code">-->
+        <!--action = {-->
+        <!--"type": "ir.actions.act_window",-->
+        <!--"view_mode": "tree,form",-->
+        <!--"res_model": model._name,-->
+        <!--}-->
+        <!--</field>-->
+        <!--</record>-->
+
+
+        <!-- Top menu item 顶部主菜单-->
+
+        <menuitem name="工程" id="eng_menu_root"/>
+
+        <!-- menu categories （一级菜单）-->
+
+        <!--<menuitem name="Todo Manager" id="menu_todo_manager" parent="todo_task.menu_root"/>-->
+        <!--<menuitem name="Menu 2" id="todo_task.menu_2" parent="todo_task.menu_root"/>-->
+
+        <!-- actions 二级菜单-->
+
+        <menuitem name="疏浚物料装载单" id="menu_eng_dredge" parent="eng_menu_root" action="eng_dredge_win"
+                  sequence="3"/>
+        <menuitem name="接管物料装载单" id="menu_eng_takeover" parent="eng_menu_root" action="eng_takeover_win"
+                  sequence="1"/>
+
+        <menuitem name="物料审核单" id="menu_eng_audit" parent="eng_menu_root" action="eng_audit_win" sequence="5"/>
+
+    </data>
+</odoo>

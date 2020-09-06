@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eng_dredge,eng.dredge,model_eng_dredge,base.group_user,1,1,1,1
+access_eng_takeover,eng.takeover,model_eng_takeover,base.group_user,1,1,1,1
+access_eng_audit,eng.audit,model_eng_audit,base.group_user,1,1,1,1
